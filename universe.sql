@@ -51,7 +51,8 @@ CREATE TABLE public.galaxy (
     galaxy_id integer NOT NULL,
     name character varying(40) NOT NULL,
     galaxy_type_id integer,
-    is_spherical boolean NOT NULL
+    is_spherical boolean NOT NULL,
+    description text
 );
 
 
@@ -85,7 +86,8 @@ ALTER SEQUENCE public.galaxy_galaxy_id_seq OWNED BY public.galaxy.galaxy_id;
 
 CREATE TABLE public.galaxy_type (
     galaxy_type_id integer NOT NULL,
-    type character varying(30) NOT NULL
+    name character varying(30) NOT NULL,
+    description text
 );
 
 
@@ -157,7 +159,8 @@ ALTER SEQUENCE public.moon_moon_id_seq OWNED BY public.moon.moon_id;
 
 CREATE TABLE public.moon_type (
     moon_type_id integer NOT NULL,
-    type character varying(30) NOT NULL
+    name character varying(30) NOT NULL,
+    description text
 );
 
 
@@ -232,7 +235,8 @@ ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
 
 CREATE TABLE public.planet_type (
     planet_type_id integer NOT NULL,
-    type character varying(30) NOT NULL
+    name character varying(30) NOT NULL,
+    description text
 );
 
 
@@ -304,7 +308,8 @@ ALTER SEQUENCE public.star_star_id_seq OWNED BY public.star.star_id;
 
 CREATE TABLE public.star_type (
     star_type_id integer NOT NULL,
-    type character varying(30) NOT NULL
+    name character varying(30) NOT NULL,
+    description text
 );
 
 
@@ -392,26 +397,26 @@ ALTER TABLE ONLY public.star_type ALTER COLUMN star_type_id SET DEFAULT nextval(
 -- Data for Name: galaxy; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.galaxy VALUES (1, 'Milky Way', 1, false);
-INSERT INTO public.galaxy VALUES (2, 'Andromeda', 1, false);
-INSERT INTO public.galaxy VALUES (3, 'Fornax', 6, true);
-INSERT INTO public.galaxy VALUES (4, 'Triangulum', 1, false);
-INSERT INTO public.galaxy VALUES (5, 'Large Magellanic Cloud', 1, false);
-INSERT INTO public.galaxy VALUES (6, 'Small Magellanic Cloud', 6, false);
-INSERT INTO public.galaxy VALUES (7, 'Canis Major Overdensity', 6, false);
-INSERT INTO public.galaxy VALUES (8, 'Sagittarius Dwarf', 2, true);
+INSERT INTO public.galaxy VALUES (2, 'Andromeda', 1, false, NULL);
+INSERT INTO public.galaxy VALUES (3, 'Fornax', 6, true, NULL);
+INSERT INTO public.galaxy VALUES (4, 'Triangulum', 1, false, NULL);
+INSERT INTO public.galaxy VALUES (5, 'Large Magellanic Cloud', 1, false, NULL);
+INSERT INTO public.galaxy VALUES (6, 'Small Magellanic Cloud', 6, false, NULL);
+INSERT INTO public.galaxy VALUES (7, 'Canis Major Overdensity', 6, false, NULL);
+INSERT INTO public.galaxy VALUES (8, 'Sagittarius Dwarf', 2, true, NULL);
+INSERT INTO public.galaxy VALUES (1, 'Milky Way', 1, false, 'The pretty galaxy you are reading this in');
 
 
 --
 -- Data for Name: galaxy_type; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.galaxy_type VALUES (1, 'spiral');
-INSERT INTO public.galaxy_type VALUES (2, 'elliptical');
-INSERT INTO public.galaxy_type VALUES (3, 'lenticular');
-INSERT INTO public.galaxy_type VALUES (4, 'irregular');
-INSERT INTO public.galaxy_type VALUES (5, 'quasar');
-INSERT INTO public.galaxy_type VALUES (6, 'dwarf');
+INSERT INTO public.galaxy_type VALUES (1, 'spiral', NULL);
+INSERT INTO public.galaxy_type VALUES (2, 'elliptical', NULL);
+INSERT INTO public.galaxy_type VALUES (3, 'lenticular', NULL);
+INSERT INTO public.galaxy_type VALUES (4, 'irregular', NULL);
+INSERT INTO public.galaxy_type VALUES (5, 'quasar', NULL);
+INSERT INTO public.galaxy_type VALUES (6, 'dwarf', NULL);
 
 
 --
@@ -451,11 +456,11 @@ INSERT INTO public.moon VALUES (27, 'Triton', 5, 8, true, NULL);
 -- Data for Name: moon_type; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.moon_type VALUES (1, 'Synchronous');
-INSERT INTO public.moon_type VALUES (2, 'Main Group');
-INSERT INTO public.moon_type VALUES (3, 'Inner');
-INSERT INTO public.moon_type VALUES (4, 'Prograde');
-INSERT INTO public.moon_type VALUES (5, 'Retrograde');
+INSERT INTO public.moon_type VALUES (1, 'Synchronous', NULL);
+INSERT INTO public.moon_type VALUES (2, 'Main Group', NULL);
+INSERT INTO public.moon_type VALUES (3, 'Inner', NULL);
+INSERT INTO public.moon_type VALUES (4, 'Prograde', NULL);
+INSERT INTO public.moon_type VALUES (5, 'Retrograde', NULL);
 
 
 --
@@ -480,10 +485,10 @@ INSERT INTO public.planet VALUES (13, 'Tylos', 4, 12, false, false, 1, 'The firs
 -- Data for Name: planet_type; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.planet_type VALUES (1, 'Ice Giant');
-INSERT INTO public.planet_type VALUES (2, 'Gas Giant');
-INSERT INTO public.planet_type VALUES (3, 'Terrestrial');
-INSERT INTO public.planet_type VALUES (4, 'Exoplanet');
+INSERT INTO public.planet_type VALUES (1, 'Ice Giant', NULL);
+INSERT INTO public.planet_type VALUES (2, 'Gas Giant', NULL);
+INSERT INTO public.planet_type VALUES (3, 'Terrestrial', NULL);
+INSERT INTO public.planet_type VALUES (4, 'Exoplanet', NULL);
 
 
 --
@@ -508,9 +513,9 @@ INSERT INTO public.star VALUES (5, 'Sirius', 3, 1, true, NULL);
 -- Data for Name: star_type; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.star_type VALUES (1, 'Blue Giant');
-INSERT INTO public.star_type VALUES (2, 'Red Dwarf');
-INSERT INTO public.star_type VALUES (3, 'Yellow');
+INSERT INTO public.star_type VALUES (1, 'Blue Giant', NULL);
+INSERT INTO public.star_type VALUES (2, 'Red Dwarf', NULL);
+INSERT INTO public.star_type VALUES (3, 'Yellow', NULL);
 
 
 --
@@ -598,7 +603,7 @@ ALTER TABLE ONLY public.galaxy_type
 --
 
 ALTER TABLE ONLY public.galaxy_type
-    ADD CONSTRAINT galaxy_type_type_key UNIQUE (type);
+    ADD CONSTRAINT galaxy_type_type_key UNIQUE (name);
 
 
 --
@@ -630,7 +635,7 @@ ALTER TABLE ONLY public.moon_type
 --
 
 ALTER TABLE ONLY public.moon_type
-    ADD CONSTRAINT moon_type_type_key UNIQUE (type);
+    ADD CONSTRAINT moon_type_type_key UNIQUE (name);
 
 
 --
@@ -670,7 +675,7 @@ ALTER TABLE ONLY public.planet_type
 --
 
 ALTER TABLE ONLY public.planet_type
-    ADD CONSTRAINT planet_type_type_key UNIQUE (type);
+    ADD CONSTRAINT planet_type_type_key UNIQUE (name);
 
 
 --
@@ -702,7 +707,7 @@ ALTER TABLE ONLY public.star_type
 --
 
 ALTER TABLE ONLY public.star_type
-    ADD CONSTRAINT star_type_type_key UNIQUE (type);
+    ADD CONSTRAINT star_type_type_key UNIQUE (name);
 
 
 --
